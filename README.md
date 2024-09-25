@@ -11,6 +11,38 @@ UTC. If a date-time string has an offset (e.g., +02:00).
 
 <br/><br/><br/><br/>
 
+# Run
+
+Before running the program, please register the environment variables:
+
+```shell
+$ export UTC_JDBC_URL=${UTC_JDBC_URL}
+$ export ASIA_SEOUL_JDBC_URL=${ASIA_JDBC_URL}
+$ export USERNAME=${USERNAME}
+$ export PASSWORD=${PASSWORD}
+```
+
+<br/><br/><br/><br/>
+
+The values are set, then the EnvLoader will be able to recognize them. The code examples provided use MySQL.
+
+```kotlin
+object EnvLoader {
+    fun loadEnv() {
+        val envFile = File(".env")
+        if (envFile.exists()) {
+            val properties = Properties()
+            envFile.bufferedReader().use { reader -> properties.load(reader) }
+            properties.forEach { key, value ->
+                System.setProperty(key as String, value as String)
+            }
+        }
+    }
+}
+```
+
+<br/><br/><br/><br/>
+
 # Database
 
 The global time zone (@@global.time_zone) reflects the time zone set for the entire server, while the session time zone (@@session.time_zone) shows the time zone for the current session. 
